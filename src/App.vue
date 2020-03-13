@@ -3,10 +3,27 @@
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
+      <h2>{{message}}</h2>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'App',
+  data() {
+    return {
+      message:''
+    }
+  },
+  mounted() {
+    this.axios.get('api/list').then((res) => {
+      this.message = res.data.a
+    })
+  }
+}
+</script>
 
 <style>
 #app {
