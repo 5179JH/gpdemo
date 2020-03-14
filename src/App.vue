@@ -1,49 +1,34 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-      <h2>{{message}}</h2>
-    </div>
-    <router-view/>
+    <navbar />
+    <router-view />
+    <!-- <h2>{{message}}</h2> -->
   </div>
 </template>
 
 <script>
+
+import navbar from 'components/navbar'
+
 export default {
-  name: 'App',
+  name: "App",
   data() {
     return {
-      message:''
-    }
+      message: ""
+    };
+  },
+  components: {
+    navbar
   },
   mounted() {
-    this.axios.get('api/list').then((res) => {
-      this.message = res.data.a
-    })
+    this.axios.get("api/user").then(res => {
+      this.message = res.data[0].username;
+      console.log(res);
+    });
   }
-}
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-
-#nav {
-  padding: 30px;
-}
-
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
+@import "./assets/css/base.css";
 </style>
