@@ -2,13 +2,15 @@
   <div id="app">
     <navbar />
     <router-view />
-    <!-- <h2>{{message}}</h2> -->
+    <h2>{{message}}</h2>
+    <foot/>
   </div>
 </template>
 
 <script>
 
 import navbar from 'components/navbar'
+import foot from 'components/foot'
 
 export default {
   name: "App",
@@ -18,7 +20,8 @@ export default {
     };
   },
   components: {
-    navbar
+    navbar,
+    foot
   },
   mounted() {
     this.axios.get("api/user").then(res => {

@@ -29,7 +29,6 @@
     </div>
   </div>
 </template>
-
 <script>
 export default {
   name: "navbar",
@@ -102,10 +101,10 @@ export default {
 }
 
 .navbar .nav > li > a:hover {
-  color: #005580;
+  color: #fff;
 }
 
-.router-link-active {
-  color: #000;
-}
+/* .router-link-active {
+  color:red !important;
+} */
 </style>
