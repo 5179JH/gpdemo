@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <navbar />
+    <crumbs />
     <router-view />
     <h2>{{message}}</h2>
     <foot/>
@@ -11,6 +12,7 @@
 
 import navbar from 'components/navbar'
 import foot from 'components/foot'
+import crumbs from 'components/crumbs'
 
 export default {
   name: "App",
@@ -21,13 +23,14 @@ export default {
   },
   components: {
     navbar,
-    foot
+    foot,
+    crumbs
   },
   mounted() {
-    this.axios.get("api/user").then(res => {
-      this.message = res.data[0].username;
-      console.log(res);
-    });
+    // this.axios.get("api/user").then(res => {
+    //   this.message = res.data[0].username;
+    //   console.log(res);
+    // });
   }
 };
 </script>

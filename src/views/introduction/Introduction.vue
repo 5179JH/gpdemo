@@ -1,5 +1,5 @@
 <template>
-<div id="introduction">
+<div id="introduction" class="main">
   <h2>新手入门</h2>
 </div>
 </template>
