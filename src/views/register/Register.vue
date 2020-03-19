@@ -11,20 +11,17 @@
             label-width="100px"
             class="demo-ruleForm"
           >
-            <!-- <el-form-item label="账号" prop="pass">
-            <el-input v-model="input" placeholder="请输入账号" autocomplete="off"></el-input>-->
-            <!-- </el-form-item> -->
-            <el-form-item label="密码" prop="pass">
-              <el-input type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
+            <el-form-item label="账号:" prop="id">
+              <el-input placeholder="请输入账号" v-model="ruleForm.id" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="确认密码" prop="checkPass">
-              <el-input type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
+            <el-form-item label="密码:" prop="pass">
+              <el-input placeholder="请输入密码" type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
             </el-form-item>
-            <el-form-item label="年龄" prop="age">
-              <el-input v-model.number="ruleForm.age"></el-input>
+            <el-form-item label="确认密码:" prop="checkPass">
+              <el-input placeholder="请再次输入密码" type="password" v-model="ruleForm.checkPass" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+              <el-button type="primary" v-loading.fullscreen.lock="fullscreenLoading" @click="submitForm('ruleForm')">提交</el-button>
               <el-button @click="resetForm('ruleForm')">重置</el-button>
             </el-form-item>
           </el-form>
@@ -38,21 +35,10 @@
 export default {
   name: "register",
   data() {
-    var checkAge = (rule, value, callback) => {
+    var validateFieId = (rule, value, callback) =>{
       if (!value) {
-        return callback(new Error("年龄不能为空"));
+        return callback(new Error("账号不能为空"));
       }
-      setTimeout(() => {
-        if (!Number.isInteger(value)) {
-          callback(new Error("请输入数字值"));
-        } else {
-          if (value < 18) {
-            callback(new Error("必须年满18岁"));
-          } else {
-            callback();
-          }
-        }
-      }, 1000);
     };
     var validatePass = (rule, value, callback) => {
       if (value === "") {
@@ -74,28 +60,58 @@ export default {
       }
     };
     return {
+      fullscreenLoading: false,
       ruleForm: {
+        id: "",
         pass: "",
         checkPass: "",
-        age: ""
       },
       rules: {
+        id: [{ validator: validateFieId, trigger: "blur" }],
         pass: [{ validator: validatePass, trigger: "blur" }],
         checkPass: [{ validator: validatePass2, trigger: "blur" }],
-        age: [{ validator: checkAge, trigger: "blur" }]
       }
     };
   },
   methods: {
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          alert("submit!");
-        } else {
-          console.log("error submit!!");
-          return false;
+      // this.$refs[formName].validate(valid => {
+      //   if (valid) {
+      //     this.$message({
+      //       message: "注册成功",
+      //       type: "success"
+      //     });
+      //   } else {
+      //     console.log("error submit!!");
+      //     return false;
+      //   }
+      // });
+      this.axios.post('api/register', this.ruleForm)
+      .then(res => {
+        // console.log(res)
+        if (res.status === 200) {
+          if (res.data.code === 1 || res.data.code === 2 || res.data.code === 3 || res.data.code === 4) {
+          this.$message({
+            type: 'error',
+            message: res.data.message
+          })
+          this.$refs[formName].resetFields();
+          } else {
+            this.$message({
+            type:'success',
+            message: res.data.message
+          })
+          this.fullscreenLoading = true;
+          setTimeout(() => {
+            this.fullscreenLoading = false;
+            this.$router.push('/home')
+          }, 1000);
+          }
         }
-      });
+      })
+      .catch(err => {
+        console.log(err)
+      })
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
@@ -107,9 +123,6 @@ export default {
 <style>
 .el-row {
   margin-bottom: 20px;
-  &:last-child {
-    margin-bottom: 0;
-  }
 }
 .el-col {
   border-radius: 4px;

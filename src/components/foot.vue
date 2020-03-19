@@ -73,8 +73,7 @@ export default {
 
 <style>
 #footer {
-  position: fixed;
-  bottom: 0;
+  margin-top: 15px;
   width: 100%;
   clear: both;
   background: #fff;

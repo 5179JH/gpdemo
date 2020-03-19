@@ -4,6 +4,7 @@
     <crumbs />
     <router-view />
     <h2>{{message}}</h2>
+    <backtop/>
     <foot/>
   </div>
 </template>
@@ -13,6 +14,7 @@
 import navbar from 'components/navbar'
 import foot from 'components/foot'
 import crumbs from 'components/crumbs'
+import backtop from 'components/backtop'
 
 export default {
   name: "App",
@@ -24,13 +26,14 @@ export default {
   components: {
     navbar,
     foot,
-    crumbs
+    crumbs,
+    backtop
   },
   mounted() {
-    // this.axios.get("api/user").then(res => {
-    //   this.message = res.data[0].username;
-    //   console.log(res);
-    // });
+    this.axios.get("api/user").then(res => {
+      this.message = res.data[0].username;
+      console.log(res);
+    });
   }
 };
 </script>

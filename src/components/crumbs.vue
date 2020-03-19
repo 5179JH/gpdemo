@@ -37,7 +37,6 @@ export default {
       } else if (path === '/register') {
         this.crumbs = '注册'
       }
-      console.log(path);
     }
   }
 };
