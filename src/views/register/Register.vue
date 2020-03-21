@@ -75,17 +75,6 @@ export default {
   },
   methods: {
     submitForm(formName) {
-      // this.$refs[formName].validate(valid => {
-      //   if (valid) {
-      //     this.$message({
-      //       message: "注册成功",
-      //       type: "success"
-      //     });
-      //   } else {
-      //     console.log("error submit!!");
-      //     return false;
-      //   }
-      // });
       this.axios.post('api/register', this.ruleForm)
       .then(res => {
         // console.log(res)
@@ -105,7 +94,7 @@ export default {
           setTimeout(() => {
             this.fullscreenLoading = false;
             this.$router.push('/home')
-          }, 1000);
+          }, 1500);
           }
         }
       })

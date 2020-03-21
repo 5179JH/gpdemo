@@ -34,6 +34,7 @@ router.post('/login', (req, res) => {
         resData.code = 1
         resData.message = '用户名或密码不能为空'
         res.json(resData)
+        return
     } else {
         //查询数据库验证用户名和密码
         user.findOne({ username: id, password: pass })
@@ -47,7 +48,6 @@ router.post('/login', (req, res) => {
                 resData.message = '登录成功';
                 res.json(resData)
             })
-            .catch(err => {})
             // 2.校验密码
             // 3.返回token
     }
@@ -62,23 +62,24 @@ router.post('/register', (req, res) => {
         // console.log(id)
         // console.log(pass)
     if (id == '') {
-        resData.code = 1;
-        resData.message = '账号不能为空';
-        res.json(resData); //使用res.json的方法返回前端数据
+        resData.code = 1
+        resData.message = '账号不能为空'
+        res.json(resData) //使用res.json的方法返回前端数据
+        return
     }
     //密码不能为空
     if (pass == '') {
-        resData.code = 2;
-        resData.message = '密码不能为空';
-        res.json(resData);
-        return;
+        resData.code = 2
+        resData.message = '密码不能为空'
+        res.json(resData)
+        return
     }
     //两次密码不能不一样
     if (pass != checkPass) {
-        resData.code = 3;
-        resData.message = '两次输入的密码不一致,请重新输入!';
-        res.json(resData);
-        return;
+        resData.code = 3
+        resData.message = '两次输入的密码不一致,请重新输入!'
+        res.json(resData)
+        return
     }
     // 查找数据库有没有相同的用户名 ，没有的话保存到数据库
     user.findOne({ username: id })
@@ -86,23 +87,23 @@ router.post('/register', (req, res) => {
             // console.log("查询结果: " + userInfo); //若控制台返回空表示没有查到数据
             if (userInfo) {
                 //若数据库有该记录
-                resData.code = 4;
-                resData.message = '用户名已被注册';
-                res.json(resData);
-                return;
+                resData.code = 4
+                resData.message = '用户名已被注册'
+                res.json(resData)
+                return
             } else {
                 //用户名没有被注册则将用户保存在数据库中
                 var admin = new user({
                     username: id,
                     password: pass
                 });
-                admin.save()
+                return admin.save()
             }
         }).then(newUserInfo => {
-            resData.message = '注册成功';
-            res.json(resData);
+            resData.message = '注册成功'
+            res.json(resData)
+            return
         })
-        .catch(err => {})
 })
 
 module.exports = router;

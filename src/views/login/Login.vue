@@ -80,7 +80,7 @@ export default {
           setTimeout(() => {
             this.fullscreenLoading = false;
             this.$router.push('/home')
-          }, 1000);
+          }, 1500);
           }
         }
       })
