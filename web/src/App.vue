@@ -3,7 +3,7 @@
     <navbar />
     <crumbs />
     <router-view />
-    <h2>{{message}}</h2>
+    <!-- <h2>{{message}}</h2> -->
     <backtop/>
     <foot/>
   </div>
