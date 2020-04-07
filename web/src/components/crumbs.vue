@@ -44,7 +44,7 @@ export default {
 
 <style>
 #crumbs {
-  margin: 0 auto;
+  margin: 20px auto 0;
   padding: 10px;
   background-color: #f6f6f6;
   border-radius: 3px 3px 0 0;

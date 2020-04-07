@@ -1,6 +1,6 @@
 <template>
 <div id="home" class="main">
-  <div v-for="(item,index) in msg" class="cell">
+  <div v-for="(item,index) in msg" class="cell" :key="index">
     <!-- <a class="user_avatar"><img :src="item.author.avatar_url" :alt="item.author.loginname" :title="item.author.loginname"></a> -->
     <span>{{item.author.loginname}}</span>
     <span class="last_create_time right">{{lastActiveTime(index)}}</span>
@@ -9,10 +9,9 @@
     </span>
   </div>
   <el-pagination
-  :page-size="20"
-  :pager-count="11"
+  @current-change="handleCurrentChange"
   layout="prev, pager, next"
-  :total="10">
+  :total="100">
 </el-pagination>
 </div>
 </template>
@@ -26,25 +25,40 @@ export default {
   data() {
     return {
       msg: '',
-      curr: 1
+      page: {
+        total: 0,
+        pageSize: 40,
+        currentPage: 1
+      }
     }
   },
   methods: {
     lastActiveTime(index) {
       let time = this.msg[index].create_at.substr(0,10)
       return time
-    }
-  },
-  mounted() {
-  this.axios.get("https://cnodejs.org/api/v1/topics", {
+    },
+    handleCurrentChange(val) {
+      this.page.currentPage = val
+      console.log(this.page.currentPage)      
+      this.roleSearch()
+      setTimeout(() => {
+        window.scrollTo(0,0)
+      }, 1000);
+    },
+    roleSearch() {
+       this.axios.get("https://cnodejs.org/api/v1/topics", {
     params: {
-      page: 10,
-      limit: 10
+      page: this.page.currentPage,
+      limit: this.page.pageSize
     }
   }).then(res => {
     this.msg = res.data.data;
-    console.log(res);
+    // console.log(res);
     });
+    }
+  },
+  mounted() {
+    this.roleSearch()
   }
 }
 </script>
@@ -58,7 +72,7 @@ export default {
 
 .user_avatar {
   display: inline-block;
-    width: 30px;
+  width: 30px;
   height: 30px;
 }
 
@@ -70,6 +84,7 @@ export default {
 
 .cell .last_create_time {
   font-size: 11px;
+  line-height: 18px;
   color: #778087;
   text-align: right;
   min-width: 50px;
