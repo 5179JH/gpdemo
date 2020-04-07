@@ -81,6 +81,8 @@ export default {
             this.fullscreenLoading = false;
             this.$router.push('/home')
           }, 1500);
+         this.$store.commit('updateToken')
+          console.log(this.$store.state.token)
           }
         }
       })

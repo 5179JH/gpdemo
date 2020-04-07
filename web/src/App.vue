@@ -29,12 +29,6 @@ export default {
     crumbs,
     backtop
   },
-  mounted() {
-    this.axios.get("api/user").then(res => {
-      this.message = res.data[0].username;
-      console.log(res);
-    });
-  }
 };
 </script>
 

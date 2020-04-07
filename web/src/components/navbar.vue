@@ -18,11 +18,14 @@
           <li>
             <router-link tag="a" to="/about">关于</router-link>
           </li>
-          <li>
+          <li v-if="$store.state.token">
             <router-link tag="a" to="/register">注册</router-link>
           </li>
-          <li>
+          <li v-if="$store.state.token">
             <router-link tag="a" to="/login">登录</router-link>
+          </li>
+           <li v-else>
+            <a @click="signOut">退出</a>
           </li>
         </ul>
       </div>
@@ -38,8 +41,8 @@ export default {
     };
   },
   methods: {
-    itemClick() {
-      console.log(this.home);
+    signOut() {
+      this.$store.state.token = true
     }
   }
 };
