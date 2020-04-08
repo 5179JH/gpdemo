@@ -15,6 +15,19 @@
       <div class="header">
         <span class="col_fade">{{msg.reply_count}} 回复</span>
       </div>
+      <div class="cell" v-for="(item, index) in msg.replies" :key="index">
+        <div class="author_content  clear-fix">
+          <span class="left">{{item.author.loginname}}:</span>
+          <div class="user_action right">
+            <span  @click="btnOn(index)">
+              <i class="el-icon-star-off up_btn" title="喜欢" v-if="focus"></i>
+              <i class="el-icon-star-on up_btn" title="喜欢" v-else></i>
+            </span>
+            <span v-show="item.ups.length !== 0">{{item.ups.length}}</span>
+          </div>
+        </div>
+        <div class="reply_content" v-html="item.content"></div>
+      </div>
     </div>
   </div>
 </template>
@@ -25,7 +38,14 @@ export default {
   data() {
     return {
       id: this.$route.query.id,
-      msg: ''
+      msg: '',
+      focus: false
+    }
+  },
+  methods: {
+    btnOn(index) {
+      this.focus = !this.focus
+      this.msg.replies[index].ups.push('1')
     }
   },
   mounted() {
@@ -82,10 +102,19 @@ export default {
   font-size: 14px;
 }
 
+.markdown-text li {
+  font-size: 14px;
+  line-height: 2em;
+}
+
 .markdown-text p {
-    word-wrap: break-word;
-    line-height: 2em;
-    margin: 1em 0;
+  white-space: pre-wrap;
+  white-space: -moz-pre-wrap;
+  white-space: -pre-wrap;
+  white-space: -o-pre-wrap;
+  word-wrap: break-word;
+  line-height: 2em;
+  margin: 1em 0;
 }
 .markdown-text a {
   color: #08c;
@@ -109,5 +138,27 @@ export default {
   color: #444;
   font-size: 14px;
   line-height: 20px;
+}
+
+.user_action {
+    float: right;
+    margin-left: 20px;
+    font-size: 15px;
+}
+
+.up_btn {
+  font-size: inherit;
+  cursor: pointer;
+  opacity: .4;
+  margin-right: 5px;
+}
+
+.up-count {
+  color: gray;
+}
+
+.reply_content {
+    padding-left: 50px;
+    color: #333;
 }
 </style>
