@@ -1,9 +1,9 @@
 <template>
   <div id="crumbs" class="main">
     <el-breadcrumb separator="/">
-      <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+      <el-breadcrumb-item :to="{ path: '/home' }">首页</el-breadcrumb-item>
       <el-breadcrumb-item>
-        <span>{{crumbs}}</span>
+        <span v-if="crumbs !== '首页'">{{crumbs}}</span>
       </el-breadcrumb-item>
     </el-breadcrumb>
   </div>

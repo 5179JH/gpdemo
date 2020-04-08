@@ -2,7 +2,9 @@
   <div id="app">
     <navbar />
     <crumbs />
-    <router-view />
+    <!-- <keep-alive> -->
+      <router-view />
+    <!-- </keep-alive> -->
     <!-- <h2>{{message}}</h2> -->
     <backtop/>
     <foot/>

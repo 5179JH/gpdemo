@@ -1,7 +1,8 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from 'views/home/Home'
 
+const Home = () => import('../views/home/Home')
+const HomeMessage = () => import('../views/home/HomeMessage')
 const About = () => import('../views/about/About')
 const Api = () => import('../views/api/Api')
 const Introduction = () => import('../views/introduction/Introduction')
@@ -17,7 +18,13 @@ const routes = [
   },
   {
     path: '/home',
-    component: Home
+    component: Home,
+    children: [
+      {
+        path: 'message',
+        component: HomeMessage
+      }
+    ]
   },
   {
     path: '/about',

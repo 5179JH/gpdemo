@@ -28,15 +28,24 @@ body {
   /* background-color: #e1e1e1; */
 }
 
+img {
+  height: auto;
+  max-width: 100%;
+  vertical-align: middle;
+  border: 0;
+}
 
 ul,li{ padding:0;margin:0;list-style:none}
 
 a {
-  color: #08c;;
+  color: #08c;
   text-decoration: none;
   cursor: pointer;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+}
 
 .clear-fix::after {
   clear: both;
@@ -50,7 +59,6 @@ a {
 .main {
   width: 90%;
   margin: 0 auto;
-  padding-top: 30px;
   max-width: 1400px;
   min-width: 960px;
   padding: 0 20px 10px;
@@ -69,4 +77,3 @@ a {
 .right {
   float: right;
 }
-
