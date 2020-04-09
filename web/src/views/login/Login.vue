@@ -98,6 +98,11 @@ export default {
 </script>
 
 <style>
+#login {
+  padding-top: 30px;
+  height: 100vh;
+}
+
 .el-row {
   margin-bottom: 20px;
 }

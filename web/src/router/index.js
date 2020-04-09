@@ -8,6 +8,7 @@ const Api = () => import('../views/api/Api')
 const Introduction = () => import('../views/introduction/Introduction')
 const Login = () => import('../views/login/Login')
 const Register = () => import('../views/register/Register')
+const Message = () => import('../views/message/Message')
 
 Vue.use(VueRouter)
 
@@ -46,6 +47,10 @@ const routes = [
     path: '/register',
     component: Register
   },
+  {
+    path: '/message',
+    component: Message
+  }
 ]
 
 const router = new VueRouter({

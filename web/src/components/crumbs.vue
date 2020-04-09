@@ -24,9 +24,7 @@ export default {
   methods: {
     fetchData() {
       let path = this.$route.path;
-      if (path === '/home') {
-        this.crumbs = '首页'
-      } else if (path === '/api') {
+      if (path === '/api') {
         this.crumbs = 'API'
       } else if (path === '/introduction') {
         this.crumbs = '新手入门'
@@ -36,6 +34,10 @@ export default {
         this.crumbs = '登录'
       } else if (path === '/register') {
         this.crumbs = '注册'
+      } else if (path === '/message') {
+        this.crumbs = '新消息'
+      } else {
+        this.crumbs = '首页'
       }
     }
   }

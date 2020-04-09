@@ -9,6 +9,9 @@
           <li>
             <router-link tag="a" to="/home">首页</router-link>
           </li>
+          <li v-show="$store.state.token">
+            <router-link tag="a" to="/message">未读信息</router-link>
+          </li>
           <li>
             <router-link tag="a" to="/introduction">新手入门</router-link>
           </li>

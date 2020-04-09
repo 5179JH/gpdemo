@@ -15,15 +15,15 @@
       <div class="header">
         <span class="col_fade">{{msg.reply_count}} 回复</span>
       </div>
-      <div class="cell" v-for="(item, index) in msg.replies" :key="index">
-        <div class="author_content  clear-fix">
+      <div class="cell" v-for="(item, index) in msg.replies" :key="index" @mouseenter="enter(index)" @mouseleave="leave(index)">
+        <div class="author_content clear-fix" >
           <span class="left">{{item.author.loginname}}:</span>
-          <div class="user_action right">
-            <span  @click="btnOn(index)">
-              <i class="el-icon-star-off up_btn" title="喜欢" v-if="focus"></i>
-              <i class="el-icon-star-on up_btn" title="喜欢" v-else></i>
+          <div class="user_action right" v-show="hoverIndex === index || item.ups.length !== 0">
+            <span>
+              <i class="el-icon-star-off up_btn"  @click="btnUp(index)" title="喜欢"></i>
             </span>
-            <span v-show="item.ups.length !== 0">{{item.ups.length}}</span>
+            <span v-show="item.ups.length !== 0" class="up-count">{{item.ups.length}}</span>
+            <span><i class="el-icon-chat-line-round"></i></span>
           </div>
         </div>
         <div class="reply_content" v-html="item.content"></div>
@@ -39,25 +39,39 @@ export default {
     return {
       id: this.$route.query.id,
       msg: '',
-      focus: false
+      hoverIndex: -1
     }
   },
   methods: {
-    btnOn(index) {
-      this.focus = !this.focus
-      this.msg.replies[index].ups.push('1')
+    btnUp(index) {
+      if (this.msg.replies[index].is_uped === false) {
+        this.msg.replies[index].is_uped = true
+        this.msg.replies[index].ups.push('1')
+      } else {
+        this.msg.replies[index].is_uped = false
+        this.msg.replies[index].ups.pop()
+      }
+    },
+    enter(index) {
+      this.hoverIndex = index
+    },
+    leave(index) {
+      this.hoverIndex = -1
     }
   },
   mounted() {
     this.axios.get("https://cnodejs.org/api/v1/topic/" + this.id).then(res => {
       this.msg = res.data.data
       console.log(this.msg)
+    }).catch(err => {
+      console.log(err)
     })
   },
 }
 </script>
 
 <style>
+
 .panel {
   /* margin-bottom: 13px; */
   border-bottom: 23px solid #e1e1e1;
@@ -91,6 +105,7 @@ export default {
 .topic_content {
   margin: 0 10px;
 }
+
 .topic_content p {
   font-size: 15px;
   line-height: 1.7em;
@@ -160,5 +175,9 @@ export default {
 .reply_content {
     padding-left: 50px;
     color: #333;
+}
+
+.el-icon-chat-line-round {
+  margin-left: 5px;
 }
 </style>

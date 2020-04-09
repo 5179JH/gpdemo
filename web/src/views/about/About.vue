@@ -94,11 +94,11 @@ export default {
 </script>
 
 <style>
-.topic_content h3 {
-  font-size: 24px;
-  margin: 30px 0 15px;
-  border-bottom: 1px solid #eee;
+
+#about {
+  padding-top: 30px;
 }
+
 .topic_content p {
     font-size: 15px;
     line-height: 2.7em;
