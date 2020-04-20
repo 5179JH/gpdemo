@@ -18,7 +18,7 @@
               <el-input placeholder="请输入密码" type="password" v-model="ruleForm.pass" autocomplete="off"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary" v-loading.fullscreen.lock="fullscreenLoading" @click="submitForm('ruleForm')">登录</el-button>
+              <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
               <el-button @click="resetForm('ruleForm')">重置</el-button>
             </el-form-item>
           </el-form>
@@ -78,7 +78,6 @@ export default {
           })
           this.fullscreenLoading = true;
           setTimeout(() => {
-            this.fullscreenLoading = false;
             this.$router.push('/home')
           }, 1500);
          this.$store.commit('updateToken')
