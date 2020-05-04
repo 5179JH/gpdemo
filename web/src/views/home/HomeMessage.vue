@@ -2,28 +2,33 @@
   <div>
     <div class="panel">
       <div class="header topic_header">
-        <span class="topic_full_title">
-          {{msg.title}}
-        </span>
+        <span class="topic_full_title">{{msg.title}}</span>
       </div>
       <div class="inner">
-        <div class="topic_content" v-html="msg.content">
-        </div>
+        <div class="topic_content" v-html="msg.content"></div>
       </div>
     </div>
     <div class="panel">
       <div class="header">
         <span class="col_fade">{{msg.reply_count}} 回复</span>
       </div>
-      <div class="cell" v-for="(item, index) in msg.replies" :key="index" @mouseenter="enter(index)" @mouseleave="leave(index)">
-        <div class="author_content clear-fix" >
+      <div
+        class="cell"
+        v-for="(item, index) in msg.replies"
+        :key="index"
+        @mouseenter="enter(index)"
+        @mouseleave="leave(index)"
+      >
+        <div class="author_content clear-fix">
           <span class="left">{{item.author.loginname}}:</span>
           <div class="user_action right" v-show="hoverIndex === index || item.ups.length !== 0">
             <span>
-              <i class="el-icon-star-off up_btn"  @click="btnUp(index)" title="喜欢"></i>
+              <i class="el-icon-star-off up_btn" @click="btnUp(index)" title="喜欢"></i>
             </span>
             <span v-show="item.ups.length !== 0" class="up-count">{{item.ups.length}}</span>
-            <span><i class="el-icon-chat-line-round"></i></span>
+            <span>
+              <i class="el-icon-chat-line-round"></i>
+            </span>
           </div>
         </div>
         <div class="reply_content" v-html="item.content"></div>
@@ -34,44 +39,55 @@
 
 <script>
 export default {
-  name: 'HomeMessage',
+  name: "HomeMessage",
   data() {
     return {
       id: this.$route.query.id,
-      msg: '',
+      msg: "",
       hoverIndex: -1
-    }
+    };
   },
   methods: {
     btnUp(index) {
-      if (this.msg.replies[index].is_uped === false) {
-        this.msg.replies[index].is_uped = true
-        this.msg.replies[index].ups.push('1')
+      let token = this.$store.state.token;
+      if (!token) {
+        if (this.msg.replies[index].is_uped === false) {
+          this.msg.replies[index].is_uped = true;
+          this.msg.replies[index].ups.push("1");
+        } else {
+          this.msg.replies[index].is_uped = false;
+          this.msg.replies[index].ups.pop();
+        }
       } else {
-        this.msg.replies[index].is_uped = false
-        this.msg.replies[index].ups.pop()
+        this.$message({
+          type: "error",
+          message: "请先登录"
+        });
+        // this.$router.push("/login");
       }
     },
     enter(index) {
-      this.hoverIndex = index
+      this.hoverIndex = index;
     },
     leave(index) {
-      this.hoverIndex = -1
+      this.hoverIndex = -1;
     }
   },
   mounted() {
-    this.axios.get("https://cnodejs.org/api/v1/topic/" + this.id).then(res => {
-      this.msg = res.data.data
-      console.log(this.msg)
-    }).catch(err => {
-      console.log(err)
-    })
-  },
-}
+    this.axios
+      .get("https://cnodejs.org/api/v1/topic/" + this.id)
+      .then(res => {
+        this.msg = res.data.data;
+        console.log(this.msg);
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
+};
 </script>
 
 <style>
-
 .panel {
   /* margin-bottom: 13px; */
   border-bottom: 23px solid #e1e1e1;
@@ -139,7 +155,7 @@ export default {
   cursor: pointer;
 }
 
-.markdown-text>:first-child {
+.markdown-text > :first-child {
   margin-top: 0;
 }
 
@@ -156,15 +172,15 @@ export default {
 }
 
 .user_action {
-    float: right;
-    margin-left: 20px;
-    font-size: 15px;
+  float: right;
+  margin-left: 20px;
+  font-size: 15px;
 }
 
 .up_btn {
   font-size: inherit;
   cursor: pointer;
-  opacity: .4;
+  opacity: 0.4;
   margin-right: 5px;
 }
 
@@ -173,8 +189,8 @@ export default {
 }
 
 .reply_content {
-    padding-left: 50px;
-    color: #333;
+  padding-left: 50px;
+  color: #333;
 }
 
 .el-icon-chat-line-round {

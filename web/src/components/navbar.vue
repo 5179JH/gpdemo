@@ -9,7 +9,7 @@
           <li>
             <router-link tag="a" to="/home">首页</router-link>
           </li>
-          <li v-show="$store.state.token">
+          <li v-show="!$store.state.token">
             <router-link tag="a" to="/message">未读信息</router-link>
           </li>
           <li>
@@ -27,7 +27,7 @@
           <li v-if="$store.state.token">
             <router-link tag="a" to="/login">登录</router-link>
           </li>
-           <li v-else>
+          <li v-else>
             <a @click="signOut">退出</a>
           </li>
         </ul>
@@ -45,7 +45,7 @@ export default {
   },
   methods: {
     signOut() {
-      this.$store.state.token = true
+      this.$store.state.token = true;
     }
   }
 };
@@ -111,6 +111,6 @@ export default {
 }
 
 .router-link-active {
-  color:#fff !important;
+  color: #fff !important;
 }
 </style>
